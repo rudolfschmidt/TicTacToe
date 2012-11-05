@@ -4,11 +4,8 @@ import junit.framework.Assert;
 import model.fieldMarking.AFieldMarking;
 import model.fieldMarking.BFieldMarking;
 import model.fieldMarking.EmptyFieldMarking;
-import model.logic.FieldHadler;
-import model.logic.FirstRowLogic;
+import model.logic.FieldHandler;
 import model.logic.GameLogic;
-import model.logic.SecondRowLogic;
-import model.logic.ThirdRowLogic;
 import model.marking.BottomLeftMarking;
 import model.marking.BottomMiddleMarking;
 import model.marking.BottomRightMarking;
@@ -68,22 +65,29 @@ public class TestModel {
 		Row thirdRow = new Row(thirdRowFirstField, thirdRowSecondField, thirdRowThirdField);
 		Board board = new Board(firstRow, secondRow, thirdRow);
 
-		FieldHadler firstRowFirstFieldHandler = new FieldHadler(firstRowFirstField);
-		FieldHadler firstRowSecondFieldHandler = new FieldHadler(firstRowSecondField);
-		FieldHadler firstRowThirdFieldHandler = new FieldHadler(firstRowThirdField);
+		FieldHandler firstRowFirstFieldHandler = new FieldHandler(firstRowFirstField);
+		FieldHandler firstRowSecondFieldHandler = new FieldHandler(firstRowSecondField);
+		FieldHandler firstRowThirdFieldHandler = new FieldHandler(firstRowThirdField);
 
-		FieldHadler secondRowFirstFieldHandler = new FieldHadler(secondRowFirstField);
-		FieldHadler secondRowSecondFieldHandler = new FieldHadler(secondRowSecondField);
-		FieldHadler secondRowThirdFieldHandler = new FieldHadler(secondRowThirdField);
+		FieldHandler secondRowFirstFieldHandler = new FieldHandler(secondRowFirstField);
+		FieldHandler secondRowSecondFieldHandler = new FieldHandler(secondRowSecondField);
+		FieldHandler secondRowThirdFieldHandler = new FieldHandler(secondRowThirdField);
 
-		FieldHadler thirdRowFirstFieldHandler = new FieldHadler(thirdRowFirstField);
-		FieldHadler thirdRowSecondFieldHandler = new FieldHadler(thirdRowSecondField);
-		FieldHadler thirdRowThirdFieldHandler = new FieldHadler(thirdRowThirdField);
+		FieldHandler thirdRowFirstFieldHandler = new FieldHandler(thirdRowFirstField);
+		FieldHandler thirdRowSecondFieldHandler = new FieldHandler(thirdRowSecondField);
+		FieldHandler thirdRowThirdFieldHandler = new FieldHandler(thirdRowThirdField);
 
-		FirstRowLogic firstRowLogic = new FirstRowLogic(firstRowFirstFieldHandler, firstRowSecondFieldHandler, firstRowThirdFieldHandler);
-		SecondRowLogic secondRowLogic = new SecondRowLogic(secondRowFirstFieldHandler, secondRowSecondFieldHandler, secondRowThirdFieldHandler);
-		ThirdRowLogic thirdRowLogic = new ThirdRowLogic(thirdRowFirstFieldHandler, thirdRowSecondFieldHandler, thirdRowThirdFieldHandler);
-		GameLogic logic = new GameLogic(firstRowLogic, secondRowLogic, thirdRowLogic);
+		GameLogic logic = new GameLogic();
+		logic.setFirstRowFirstFieldHandler(firstRowFirstFieldHandler);
+		logic.setFirstRowSecondFieldHandler(firstRowSecondFieldHandler);
+		logic.setFirstRowThirdFieldHandler(firstRowThirdFieldHandler);
+		logic.setSecondRowFirstFieldHandler(secondRowFirstFieldHandler);
+		logic.setSecondRowSecondFieldHandler(secondRowSecondFieldHandler);
+		logic.setSecondRowThirdFieldHandler(secondRowThirdFieldHandler);
+		logic.setThirdRowFirstFieldHandler(thirdRowFirstFieldHandler);
+		logic.setThirdRowSecondFieldHandler(thirdRowSecondFieldHandler);
+		logic.setThirdRowThirdFieldHandler(thirdRowThirdFieldHandler);
+		logic.create();
 
 		Game game = new Game(board, logic);
 		Mediator mediator = new Mediator();
@@ -91,7 +95,6 @@ public class TestModel {
 		Player playerB = new PlayerB(game, mediator);
 		mediator.registerPlayerA(playerA);
 		mediator.registerPlayerB(playerB);
-		logic.prepare();
 
 		Assert.assertEquals(playerA.getState(), new ReadyState(playerA));
 		Assert.assertEquals(playerB.getState(), new ReadyState(playerB));

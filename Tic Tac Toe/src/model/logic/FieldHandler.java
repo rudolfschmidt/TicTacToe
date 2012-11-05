@@ -6,16 +6,16 @@ import java.util.Collection;
 import model.Field;
 import model.player.Player;
 
-public class FieldHadler {
+public class FieldHandler {
 
-	private Collection<FieldHadler> chains = new ArrayList<>();
+	private Collection<FieldHandler> chains = new ArrayList<>();
 	private Field field;
 
-	public FieldHadler(Field field) {
+	public FieldHandler(Field field) {
 		this.field = field;
 	}
 
-	public void next(FieldHadler handler) {
+	public void next(FieldHandler handler) {
 		chains.add(handler);
 	}
 
@@ -24,7 +24,7 @@ public class FieldHadler {
 			if (chains.isEmpty()) {
 				player.setGameWon();
 			} else {
-				for (FieldHadler handler : chains) {
+				for (FieldHandler handler : chains) {
 					handler.handle(player);
 				}
 			}
